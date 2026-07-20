@@ -1,0 +1,18 @@
+pkgbase = git-setup
+	pkgdesc = Configure Git, GitHub, SSH and GPG interactively
+	pkgver = 0.1.0
+	pkgrel = 1
+	url = https://github.com/robert-flo/git-setup---hermes-agent-era
+	arch = any
+	license = MIT
+	depends = git
+	depends = github-cli
+	depends = gnupg
+	depends = openssh
+	depends = git-delta
+	source = git-setup::https://github.com/robert-flo/git-setup---hermes-agent-era/archive/refs/tags/v0.1.0.tar.gz
+	source = git-setup
+	sha256sums = SKIP
+	sha256sums = SKIP
+
+pkgname = git-setup
