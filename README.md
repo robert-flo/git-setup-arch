@@ -14,7 +14,15 @@ makepkg -si
 
 After installation, run `git-setup` to open the interactive menu. The package deliberately does not publish to AUR yet.
 
-`PKGBUILD` downloads the matching tagged source release. Until `v0.1.0` is published, use the source checkout directly for development rather than attempting a normal package build.
+`PKGBUILD` downloads the published `v0.1.0` release archive and verifies it with a fixed SHA-256 checksum.
+
+## Validate the release archive
+
+Run the release-archive validation to download the tagged archive and verify its checksum in an isolated Arch Linux container:
+
+```bash
+tests/validate-release-archive.sh
+```
 
 ## Validate a local source checkout
 
@@ -25,4 +33,4 @@ GIT_SETUP_SOURCE_DIR=/path/to/git-setup---hermes-agent-era \
   tests/validate-local-install.sh
 ```
 
-It creates a temporary `v0.1.0` source archive inside an `archlinux:latest` container, runs `makepkg -si`, and checks the installed public command. No host home directory, package cache, or installed files are changed.
+It creates a temporary `v0.1.0` source archive inside an `archlinux:latest` container, runs `makepkg -si` without applying the published archive checksum to that local build, and checks the installed public command. No host home directory, package cache, or installed files are changed.

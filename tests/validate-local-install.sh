@@ -38,7 +38,7 @@ docker run --rm \
     chown -R builder:builder /work/package
 
     su --shell /bin/bash builder --command \
-      "cd /work/package && makepkg -si --noconfirm --needed"
+      "cd /work/package && makepkg -si --noconfirm --needed --skipchecksums"
 
     test -x /usr/bin/git-setup
     test -x /opt/git-setup/git-setup
