@@ -1,10 +1,15 @@
 # git-setup for Arch Linux
 
-A local Arch Linux package for
-[git-setup](https://github.com/robert-flo/git-setup---hermes-agent-era).
-It installs the public git-setup command at /usr/bin/git-setup, keeps the
-private implementation under /opt/git-setup, and provides an application-menu
-entry that opens the assistant in the default terminal.
+An Arch Linux installation package for
+[git-setup](https://github.com/robert-flo/git-setup---hermes-agent-era), built
+with the same local PKGBUILD workflow used by AUR packages. Clone the package
+repository, inspect or adjust PKGBUILD if needed, then build a Pacman package
+on your machine. It is not published to AUR yet.
+
+The installed package provides the public git-setup command at
+/usr/bin/git-setup, keeps the private implementation under /opt/git-setup,
+and adds an application-menu entry that opens the assistant in the default
+terminal.
 
 ---
 
@@ -15,7 +20,20 @@ entry that opens the assistant in the default terminal.
 
 ### Build and Install Locally
 
-Clone this package repository, then build and install the Arch package:
+Clone this package repository, then choose either installation workflow.
+
+### Standard Arch / AUR-Style Workflow
+
+```shell
+git clone <package-repository-url> git-setup
+cd git-setup
+makepkg -si
+```
+
+This is the conventional workflow for a local PKGBUILD or an AUR package:
+makepkg builds the Pacman package and -i installs it.
+
+### Project Make Workflow
 
 ```shell
 git clone <package-repository-url> git-setup
@@ -23,8 +41,12 @@ cd git-setup
 make install
 ```
 
-After installation, run git-setup to open the interactive menu. The package is
-intended for local installation and is not published to AUR yet.
+make install runs makepkg -si for you and adds the project's formatted status
+messages and next-action guidance. Use one workflow or the other; do not run
+make install followed by makepkg -si, because both perform the same package
+build-and-install operation.
+
+After installation, run git-setup to open the interactive menu.
 
 The package downloads the published v0.1.0 archive from the source repository,
 verifies its fixed SHA-256 checksum, and installs only the launcher plus the
