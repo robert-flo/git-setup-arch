@@ -18,7 +18,7 @@ PACKAGE_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 readonly PACKAGE_DIR
 readonly CONTAINER_SCRIPT="$SCRIPT_DIR/lib/container-validate.sh"
 readonly PKG_VERSION="0.1.0"
-readonly PKG_ARCHIVE_PREFIX="git-setup---hermes-agent-era-${PKG_VERSION}/"
+readonly PKG_ARCHIVE_PREFIX="git-setup-${PKG_VERSION}/"
 
 # shellcheck disable=SC1091 # The library path is derived from this script's location.
 source "$SCRIPT_DIR/lib/host-checks.sh"
@@ -32,7 +32,7 @@ archive_path=""
 usage() {
   cat <<'USAGE'
 Usage:
-  GIT_SETUP_SOURCE_DIR=/path/to/git-setup---hermes-agent-era \
+  GIT_SETUP_SOURCE_DIR=/path/to/git-setup \
     tests/validate-local-install.sh
 
 Purpose:

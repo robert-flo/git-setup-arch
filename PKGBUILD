@@ -3,7 +3,7 @@ pkgver=0.1.0
 pkgrel=1
 pkgdesc='Configure Git, GitHub, SSH and GPG interactively'
 arch=('any')
-url='https://github.com/robert-flo/git-setup---hermes-agent-era'
+url='https://github.com/robert-flo/git-setup'
 license=('MIT')
 options=('!debug')
 depends=('git' 'github-cli' 'gnupg' 'openssh' 'git-delta')
@@ -12,12 +12,12 @@ source=(
   "${pkgname}"
 )
 sha256sums=(
-  'd3559179dc27806a2b90f352fcea2adf8b485e949c7a6f561b566208f20173b7'
+  '56e5687bd7f6523abc11a3be46d8fedfb4a06584196af7f2296749de61b3a05f'
   'e1940018f1f1f042fdb697fdfcf022076cfcd2821c3689aaa3fd5c6d3583f150'
 )
 
 package() {
-  local source_dir="${srcdir}/git-setup---hermes-agent-era-${pkgver}"
+  local source_dir="${srcdir}/git-setup-${pkgver}"
   local payload_dir="${pkgdir}/opt/${pkgname}"
 
   install -d "${payload_dir}"/{helper,lib,scripts,templates/git}

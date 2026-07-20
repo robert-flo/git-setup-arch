@@ -1,10 +1,12 @@
 # git-setup for Arch Linux
 
 An Arch Linux installation package for
-[git-setup](https://github.com/robert-flo/git-setup---hermes-agent-era), built
+[git-setup](https://github.com/robert-flo/git-setup), built
 with the same local PKGBUILD workflow used by AUR packages. Clone the package
 repository, inspect or adjust PKGBUILD if needed, then build a Pacman package
 on your machine. It is not published to AUR yet.
+
+Upstream project: [robert-flo/git-setup.git](https://github.com/robert-flo/git-setup.git)
 
 The installed package provides the public git-setup command at
 /usr/bin/git-setup, keeps the private implementation under /opt/git-setup,
@@ -25,8 +27,8 @@ Clone this package repository, then choose either installation workflow.
 ### Standard Arch / AUR-Style Workflow
 
 ```shell
-git clone <package-repository-url> git-setup
-cd git-setup
+git clone https://github.com/robert-flo/git-setup-arch.git
+cd git-setup-arch
 makepkg -si
 ```
 
@@ -36,8 +38,8 @@ makepkg builds the Pacman package and -i installs it.
 ### Project Make Workflow
 
 ```shell
-git clone <package-repository-url> git-setup
-cd git-setup
+git clone https://github.com/robert-flo/git-setup-arch.git
+cd git-setup-arch
 make install
 ```
 
@@ -100,8 +102,8 @@ home directory, Git configuration, SSH keys, GPG keys, or package cache.
 
 ```shell
 make test-release
-make test-local SOURCE_DIR=/path/to/git-setup---hermes-agent-era
-make test SOURCE_DIR=/path/to/git-setup---hermes-agent-era
+make test-local SOURCE_DIR=/path/to/git-setup
+make test SOURCE_DIR=/path/to/git-setup
 ```
 
 SOURCE_DIR is equivalent to GIT_SETUP_SOURCE_DIR. It must identify a Git
@@ -184,4 +186,4 @@ here.
 ## License
 
 The packaged source is released under the
-[source project's MIT License](https://github.com/robert-flo/git-setup---hermes-agent-era/blob/master/LICENSE).
+[source project's MIT License](https://github.com/robert-flo/git-setup/blob/master/LICENSE).
