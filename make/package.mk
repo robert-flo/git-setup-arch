@@ -1,56 +1,98 @@
-.PHONY: help build install reinstall clean test test-release test-local lint srcinfo-check
+# ═══════════════════════════════════════════════════════════════
+# 📦 PACKAGE WORKFLOWS - Build, install, validate, and clean
+# ═══════════════════════════════════════════════════════════════
+# 🎯 Purpose: Provide safe, memorable shortcuts for Arch package maintenance
+# 📎 Source: SOURCE_DIR is forwarded as GIT_SETUP_SOURCE_DIR to local tests
 
 SOURCE_DIR ?= $(GIT_SETUP_SOURCE_DIR)
 
-help:
-	@printf '%s\n' '' \
-	  'git-setup package commands' \
-	  '──────────────────────────' \
-	  '  make build             Build the Arch package (makepkg -s).' \
-	  '  make install           Build or reuse, then install (makepkg -si).' \
-	  '  make reinstall         Cleanly rebuild and install (makepkg -Cfi).' \
-	  '  make clean             Remove all local makepkg directories and artifacts.' \
-	  '  make lint              Check Bash syntax, ShellCheck, PKGBUILD metadata, and whitespace.' \
-	  '  make test-release      Verify the published release archive in Docker.' \
-	  '  make test-local SOURCE_DIR=/path/to/source' \
-	  '                         Build/install a committed source revision in Docker.' \
-	  '  make test SOURCE_DIR=/path/to/source' \
-	  '                         Run both package validations.' \
-	  '  make srcinfo-check     Verify .SRCINFO matches PKGBUILD.' \
-	  '' \
-	  'SOURCE_DIR is an alias for GIT_SETUP_SOURCE_DIR used by the local test.' \
-	  'Use make reinstall after changing PKGBUILD or when an old package artifact exists.' \
-	  ''
+.PHONY: help-package build install reinstall clean test test-release test-local lint srcinfo-check
 
-build:
-	makepkg -s
+# ═══════════════════════════════════════════════════════════════
+# 📚 HELP-PACKAGE - Show package workflow targets
+# ═══════════════════════════════════════════════════════════════
+help-package: ## Show package maintenance targets
+	@printf "$(CYAN)Package maintenance targets$(NC)\n"
+	@printf "$(CYAN)────────────────────────────────────────────────────────────────────────────────$(NC)\n"
+	@printf "  make build             Build the Arch package with makepkg -s\n"
+	@printf "  make install           Build or reuse, then install with makepkg -si\n"
+	@printf "  make reinstall         Cleanly rebuild and install with makepkg -Cfi\n"
+	@printf "  make clean             Remove all local makepkg directories and artifacts\n"
+	@printf "  make lint              Check Bash, ShellCheck, .SRCINFO, and whitespace\n"
+	@printf "  make test-release      Verify the published release archive in Docker\n"
+	@printf "  make test-local SOURCE_DIR=/path/to/source\n"
+	@printf "                         Build, install, and exercise committed local source\n"
+	@printf "  make test SOURCE_DIR=/path/to/source\n"
+	@printf "                         Run lint and both container validations\n"
+	@printf "  make srcinfo-check     Verify .SRCINFO matches PKGBUILD\n"
+	@printf "\n"
+	@printf "$(DIM)SOURCE_DIR is equivalent to GIT_SETUP_SOURCE_DIR. Use make reinstall after\n$(NC)"
+	@printf "$(DIM)changing PKGBUILD or when an old package artifact exists.\n$(NC)"
+	@printf "\n"
 
-install:
-	makepkg -si
+# ═══════════════════════════════════════════════════════════════
+# 🏗️  BUILD - Create the Arch package without installing it
+# ═══════════════════════════════════════════════════════════════
+build: ## Build the Arch package
+	@printf "\n$(CYAN)🏗️  build · creating the Arch package$(NC)\n"
+	@makepkg -s
 
-reinstall:
-	makepkg -Cfi
+# ═══════════════════════════════════════════════════════════════
+# 📥 INSTALL - Build or reuse the package, then install it
+# ═══════════════════════════════════════════════════════════════
+install: ## Build or reuse, then install the package
+	@printf "\n$(CYAN)📥 install · building or reusing the local package$(NC)\n"
+	@makepkg -si
 
-clean:
-	rm -rf -- src pkg
-	find . -maxdepth 1 -type f \( -name 'git-setup-*.pkg.tar.*' -o -name 'git-setup-*.tar.gz' \) -delete
+# ═══════════════════════════════════════════════════════════════
+# 🔄 REINSTALL - Force a clean build and installation
+# ═══════════════════════════════════════════════════════════════
+reinstall: ## Force a clean rebuild and installation
+	@printf "\n$(CYAN)🔄 reinstall · forcing a clean package rebuild$(NC)\n"
+	@makepkg -Cfi
 
-lint: srcinfo-check
-	bash -n tests/*.sh tests/lib/*.sh
-	shellcheck tests/*.sh tests/lib/*.sh
-	git diff --check
+# ═══════════════════════════════════════════════════════════════
+# 🧹 CLEAN - Remove generated makepkg state and artifacts
+# ═══════════════════════════════════════════════════════════════
+clean: ## Remove all local makepkg directories and artifacts
+	@printf "\n$(CYAN)🧹 clean · removing local makepkg state and artifacts$(NC)\n"
+	@rm -rf -- src pkg
+	@find . -maxdepth 1 -type f \( -name 'git-setup-*.pkg.tar.*' -o -name 'git-setup-*.tar.gz' \) -delete
+	@printf "$(GREEN)  ✓ checkout is ready for a fresh package build$(NC)\n"
 
-srcinfo-check:
-	cmp .SRCINFO <(makepkg --printsrcinfo)
+# ═══════════════════════════════════════════════════════════════
+# 🔎 LINT - Check package metadata and shell quality
+# ═══════════════════════════════════════════════════════════════
+lint: srcinfo-check ## Check scripts, metadata, and whitespace
+	@printf "\n$(CYAN)🔎 lint · checking scripts, metadata, and whitespace$(NC)\n"
+	@bash -n tests/*.sh tests/lib/*.sh
+	@shellcheck tests/*.sh tests/lib/*.sh
+	@git diff --check
+	@printf "$(GREEN)  ✓ lint passed$(NC)\n"
 
-test-release:
-	tests/validate-release-archive.sh
+# ═══════════════════════════════════════════════════════════════
+# 📄 SRCINFO-CHECK - Keep generated metadata in sync
+# ═══════════════════════════════════════════════════════════════
+srcinfo-check: ## Verify .SRCINFO matches PKGBUILD
+	@cmp .SRCINFO <(makepkg --printsrcinfo)
 
-test-local:
+# ═══════════════════════════════════════════════════════════════
+# 🌐 TEST-RELEASE - Verify the published release archive
+# ═══════════════════════════════════════════════════════════════
+test-release: ## Verify the published release archive in Docker
+	@tests/validate-release-archive.sh
+
+# ═══════════════════════════════════════════════════════════════
+# 🧪 TEST-LOCAL - Build and exercise a local source revision
+# ═══════════════════════════════════════════════════════════════
+test-local: ## Validate a local source checkout in Docker
 	@test -n "$(SOURCE_DIR)" || { \
-		printf '%s\n' 'ERROR: set SOURCE_DIR=/path/to/git-setup source checkout.' >&2; \
+		printf '$(RED)ERROR: set SOURCE_DIR=/path/to/git-setup source checkout.$(NC)\n' >&2; \
 		exit 2; \
 	}
-	GIT_SETUP_SOURCE_DIR="$(SOURCE_DIR)" tests/validate-local-install.sh
+	@GIT_SETUP_SOURCE_DIR="$(SOURCE_DIR)" tests/validate-local-install.sh
 
-test: lint test-release test-local
+# ═══════════════════════════════════════════════════════════════
+# ✅ TEST - Run every package validation
+# ═══════════════════════════════════════════════════════════════
+test: lint test-release test-local ## Run lint and both package validations
