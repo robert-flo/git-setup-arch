@@ -2,7 +2,7 @@
 # 📦 GIT-SETUP PACKAGE - Maintainer command center
 # ═══════════════════════════════════════════════════════════════
 # 🎯 Purpose: Build, install, validate, and clean the Arch package
-# 📎 Details: Package workflows live in ./make/package.mk
+# 📎 Details: Package and Git workflows live in ./make/
 
 .DEFAULT_GOAL := help
 
@@ -15,6 +15,7 @@ DIM := \033[2m
 NC := \033[0m
 
 include make/package.mk
+include make/git.mk
 
 # ═══════════════════════════════════════════════════════════════
 # 🧭 HELP - Show the available package workflows
@@ -30,3 +31,4 @@ help: ## Show all git-setup package commands
 	@printf "  $(DIM)Use SOURCE_DIR=/path/to/source for validations that need the source repository.\n$(NC)"
 	@printf "\n"
 	@$(MAKE) --no-print-directory help-package
+	@$(MAKE) --no-print-directory help-git
