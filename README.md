@@ -50,7 +50,7 @@ build-and-install operation.
 
 After installation, run git-setup to open the interactive menu.
 
-The package downloads the published v0.1.1 archive from the source repository,
+The package downloads the tagged release archive pinned by PKGBUILD,
 verifies its fixed SHA-256 checksum, and installs only the launcher plus the
 release payload. It requires git, github-cli, gnupg, openssh, and git-delta.
 
@@ -178,6 +178,40 @@ integration, and package validations.
 Keeping the repositories separate lets the release archive remain the package
 input while package-specific build, installation, and validation logic stays
 here.
+
+### Automated Upstream Updates
+
+GitHub Actions checks the latest stable release from the source repository once
+per day at 06:23 UTC (00:23 in El Salvador) and can also be run manually. When
+either the release version or its generated source-archive checksum changes, the
+workflow updates PKGBUILD,
+regenerates .SRCINFO, builds the package as a non-root user, uploads the package
+artifact, and commits the verified metadata back to this repository.
+
+The workflow uses scripts/check_upstream.sh for release detection and checksum
+calculation, and scripts/update_package.sh for the controlled PKGBUILD edit. The
+offline contract test is available locally with:
+
+```shell
+make test-automation
+```
+
+To run the real release check locally, update the metadata when necessary, and
+then review the result before committing it:
+
+```shell
+make update-upstream
+git diff -- PKGBUILD .SRCINFO
+make build
+make test-release
+```
+
+`make update-upstream` requires an authenticated GitHub CLI session (`gh auth
+login`) plus `curl`, `jq`, and Arch's `makepkg`. It never commits or pushes.
+
+This repository is still not published to AUR, so the automation stops after
+updating and validating this package repository. AUR publication will require
+an AUR package repository and a dedicated SSH key.
 
 ---
 
