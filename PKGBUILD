@@ -35,6 +35,7 @@ Exec=git-setup
 TryExec=git-setup
 Terminal=true
 Type=Application
+Icon=utilities-terminal
 Categories=Development;Utility;
 Keywords=Git;GitHub;SSH;GPG;
 DESKTOP_ENTRY

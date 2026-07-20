@@ -21,7 +21,8 @@ After installation, run `git-setup` to open the interactive menu. The package de
 The installed package also provides `git-setup.desktop` under
 `/usr/share/applications`. In a graphical desktop environment it appears as
 **git-setup** and opens `git-setup` in the system's default terminal emulator.
-The launcher uses `Terminal=true`; it does not start a separate graphical UI.
+The launcher uses `Terminal=true` and the theme-provided generic terminal icon
+(`utilities-terminal`); it does not start a separate graphical UI.
 
 ## Validation commands
 

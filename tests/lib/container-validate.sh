@@ -65,6 +65,7 @@ phase_verify_desktop_launcher() {
   grep -Fxq 'TryExec=git-setup' "$desktop_file"
   grep -Fxq 'Terminal=true' "$desktop_file"
   grep -Fxq 'Type=Application' "$desktop_file"
+  grep -Fxq 'Icon=utilities-terminal' "$desktop_file"
   grep -Fxq 'Categories=Development;Utility;' "$desktop_file"
 }
 
