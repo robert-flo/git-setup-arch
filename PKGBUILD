@@ -5,6 +5,7 @@ pkgdesc='Configure Git, GitHub, SSH and GPG interactively'
 arch=('any')
 url='https://github.com/robert-flo/git-setup---hermes-agent-era'
 license=('MIT')
+options=('!debug')
 depends=('git' 'github-cli' 'gnupg' 'openssh' 'git-delta')
 source=(
   "${pkgname}-${pkgver}.tar.gz::${url}/archive/refs/tags/v${pkgver}.tar.gz"
@@ -26,4 +27,15 @@ package() {
   install -Dm755 "${source_dir}/scripts/"* "${payload_dir}/scripts/"
   install -Dm644 "${source_dir}/templates/git/"* "${payload_dir}/templates/git/"
   install -Dm755 "${srcdir}/${pkgname}" "${pkgdir}/usr/bin/${pkgname}"
+  install -Dm644 /dev/stdin "${pkgdir}/usr/share/applications/${pkgname}.desktop" << 'DESKTOP_ENTRY'
+[Desktop Entry]
+Name=git-setup
+Comment=Configure Git, GitHub, SSH and GPG interactively
+Exec=git-setup
+TryExec=git-setup
+Terminal=true
+Type=Application
+Categories=Development;Utility;
+Keywords=Git;GitHub;SSH;GPG;
+DESKTOP_ENTRY
 }
