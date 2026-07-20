@@ -17,7 +17,7 @@ readonly SCRIPT_DIR
 PACKAGE_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 readonly PACKAGE_DIR
 readonly CONTAINER_SCRIPT="$SCRIPT_DIR/lib/container-validate.sh"
-readonly PKG_VERSION="0.1.0"
+readonly PKG_VERSION="0.1.1"
 readonly PKG_ARCHIVE_PREFIX="git-setup-${PKG_VERSION}/"
 
 # shellcheck disable=SC1091 # The library path is derived from this script's location.

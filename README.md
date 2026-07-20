@@ -50,7 +50,7 @@ build-and-install operation.
 
 After installation, run git-setup to open the interactive menu.
 
-The package downloads the published v0.1.0 archive from the source repository,
+The package downloads the published v0.1.1 archive from the source repository,
 verifies its fixed SHA-256 checksum, and installs only the launcher plus the
 release payload. It requires git, github-cli, gnupg, openssh, and git-delta.
 

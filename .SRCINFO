@@ -1,6 +1,6 @@
 pkgbase = git-setup
 	pkgdesc = Configure Git, GitHub, SSH and GPG interactively
-	pkgver = 0.1.0
+	pkgver = 0.1.1
 	pkgrel = 1
 	url = https://github.com/robert-flo/git-setup
 	arch = any
@@ -11,9 +11,9 @@ pkgbase = git-setup
 	depends = openssh
 	depends = git-delta
 	options = !debug
-	source = git-setup-0.1.0.tar.gz::https://github.com/robert-flo/git-setup/archive/refs/tags/v0.1.0.tar.gz
+	source = git-setup-0.1.1.tar.gz::https://github.com/robert-flo/git-setup/archive/refs/tags/v0.1.1.tar.gz
 	source = git-setup
-	sha256sums = 56e5687bd7f6523abc11a3be46d8fedfb4a06584196af7f2296749de61b3a05f
+	sha256sums = 6be2dcdd84925bdaefa6993f14a90c5d9b4b6dcf283be9b6c366fd02443b4131
 	sha256sums = e1940018f1f1f042fdb697fdfcf022076cfcd2821c3689aaa3fd5c6d3583f150
 
 pkgname = git-setup
