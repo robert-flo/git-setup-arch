@@ -17,7 +17,8 @@ readonly SCRIPT_DIR
 PACKAGE_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 readonly PACKAGE_DIR
 readonly CONTAINER_SCRIPT="$SCRIPT_DIR/lib/container-validate.sh"
-readonly PKG_VERSION="0.1.1"
+PKG_VERSION="$(awk -F= '/^pkgver=/{print $2; exit}' "$PACKAGE_DIR/PKGBUILD")"
+readonly PKG_VERSION
 readonly PKG_ARCHIVE_PREFIX="git-setup-${PKG_VERSION}/"
 
 # shellcheck disable=SC1091 # The library path is derived from this script's location.
@@ -93,6 +94,7 @@ check_host_deps() {
   command -v git > /dev/null 2>&1 || die 'git is required on the host to create the source archive.'
   require_docker
   [[ -f "$CONTAINER_SCRIPT" ]] || die "missing companion script: $CONTAINER_SCRIPT"
+  [[ $PKG_VERSION =~ ^[0-9]+([.][0-9]+)*$ ]] || die 'PKGBUILD contains an invalid pkgver.'
 }
 
 validate_source_dir() {

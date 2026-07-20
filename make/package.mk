@@ -6,7 +6,7 @@
 
 SOURCE_DIR ?= $(GIT_SETUP_SOURCE_DIR)
 
-.PHONY: help-package build install reinstall clean test test-release test-local lint srcinfo-check
+.PHONY: help-package build install reinstall clean test test-release test-local test-automation update-upstream lint srcinfo-check
 
 # ═══════════════════════════════════════════════════════════════
 # 📚 HELP-PACKAGE - Show package workflow targets
@@ -19,6 +19,8 @@ help-package: ## Show package maintenance targets
 	@printf "  make reinstall         Cleanly rebuild and install with makepkg -Cfi\n"
 	@printf "  make clean             Remove all local makepkg directories and artifacts\n"
 	@printf "  make lint              Check Bash, ShellCheck, .SRCINFO, and whitespace\n"
+	@printf "  make test-automation   Test upstream detection and metadata updates offline\n"
+	@printf "  make update-upstream   Check upstream and update PKGBUILD/.SRCINFO locally\n"
 	@printf "  make test-release      Verify the published release archive in Docker\n"
 	@printf "  make test-local SOURCE_DIR=/path/to/source\n"
 	@printf "                         Build, install, and exercise committed local source\n"
@@ -127,8 +129,8 @@ endif
 	@printf "  checking .SRCINFO against PKGBUILD...\n"
 	@cmp .SRCINFO <(makepkg --printsrcinfo)
 	@printf "  checking Bash syntax and ShellCheck...\n"
-	@bash -n tests/*.sh tests/lib/*.sh
-	@shellcheck tests/*.sh tests/lib/*.sh
+	@bash -n scripts/*.sh tests/*.sh tests/lib/*.sh
+	@shellcheck scripts/*.sh tests/*.sh tests/lib/*.sh
 	@printf "  checking whitespace errors...\n"
 	@git diff --check
 	@printf "$(GREEN)  ✓ lint passed$(NC)\n"
@@ -139,6 +141,18 @@ ifndef EMBEDDED
 	@printf "  • verify the release archive:  $(BLUE)make test-release$(NC)\n"
 	@printf "  • run every validation:        $(BLUE)make test SOURCE_DIR=/path/to/source$(NC)\n\n"
 endif
+
+# ═══════════════════════════════════════════════════════════════
+# 🤖 TEST-AUTOMATION - Exercise upstream sync scripts without network access
+# ═══════════════════════════════════════════════════════════════
+test-automation: ## Test upstream package automation with local fixtures
+	@tests/test-upstream-automation.sh
+
+# ═══════════════════════════════════════════════════════════════
+# 🔄 UPDATE-UPSTREAM - Apply the detected upstream release locally
+# ═══════════════════════════════════════════════════════════════
+update-upstream: ## Update package metadata from the latest stable upstream release
+	@scripts/sync_upstream.sh
 
 # ═══════════════════════════════════════════════════════════════
 # 📄 SRCINFO-CHECK - Keep generated metadata in sync
@@ -203,14 +217,15 @@ endif
 # ═══════════════════════════════════════════════════════════════
 # ✅ TEST - Run every package validation
 # ═══════════════════════════════════════════════════════════════
-# ──── Test: Runs lint plus published-release and local-install validations ────
-test: ## Run lint and both package validations
+# ──── Test: Runs lint, automation, release, and local-install validations ────
+test: ## Run every package validation
 ifndef EMBEDDED
 	@printf "\n"
 	@printf "$(CYAN)✅ test · running every package validation$(NC)\n"
 	@printf "$(CYAN)────────────────────────────────────────────────────────────────────────────────$(NC)\n"
 endif
 	@$(MAKE) --no-print-directory lint EMBEDDED=1
+	@$(MAKE) --no-print-directory test-automation EMBEDDED=1
 	@$(MAKE) --no-print-directory test-release EMBEDDED=1
 	@$(MAKE) --no-print-directory test-local EMBEDDED=1 SOURCE_DIR="$(SOURCE_DIR)"
 	@printf "$(GREEN)  ✓ all package validations passed$(NC)\n"
