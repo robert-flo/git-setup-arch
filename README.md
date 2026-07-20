@@ -21,7 +21,7 @@ After installation, run `git-setup` to open the interactive menu. The package de
 | `make build` | Build with `makepkg -s`. |
 | `make install` | Build or reuse the existing package, then install it with `makepkg -si`. |
 | `make reinstall` | Discard working build directories, force a new package, and install it with `makepkg -Cfi`. Use this after modifying `PKGBUILD` or if an existing package artifact is stale. |
-| `make clean` | Remove makepkg working directories with `makepkg -c`. |
+| `make clean` | Remove only the local makepkg working directories, `src/` and `pkg/`; it does not build or remove a package archive. |
 | `make lint` | Check Bash syntax, ShellCheck, `.SRCINFO`, and whitespace errors. |
 | `make test-release` | Verify the published release archive in Docker. |
 | `make test-local SOURCE_DIR=/path/to/source` | Build, install, and exercise a committed source checkout in Docker. |

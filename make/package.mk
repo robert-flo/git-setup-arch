@@ -9,7 +9,7 @@ help:
 	  '  make build             Build the Arch package (makepkg -s).' \
 	  '  make install           Build or reuse, then install (makepkg -si).' \
 	  '  make reinstall         Cleanly rebuild and install (makepkg -Cfi).' \
-	  '  make clean             Remove makepkg working directories (makepkg -c).' \
+	  '  make clean             Remove local makepkg working directories (src/ and pkg/).' \
 	  '  make lint              Check Bash syntax, ShellCheck, PKGBUILD metadata, and whitespace.' \
 	  '  make test-release      Verify the published release archive in Docker.' \
 	  '  make test-local SOURCE_DIR=/path/to/source' \
@@ -32,7 +32,7 @@ reinstall:
 	makepkg -Cfi
 
 clean:
-	makepkg -c
+	rm -rf -- src pkg
 
 lint: srcinfo-check
 	bash -n tests/*.sh tests/lib/*.sh
