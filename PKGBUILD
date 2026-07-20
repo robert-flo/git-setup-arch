@@ -7,7 +7,7 @@ url='https://github.com/robert-flo/git-setup---hermes-agent-era'
 license=('MIT')
 depends=('git' 'github-cli' 'gnupg' 'openssh' 'git-delta')
 source=(
-  "${pkgname}::${url}/archive/refs/tags/v${pkgver}.tar.gz"
+  "${pkgname}-${pkgver}.tar.gz::${url}/archive/refs/tags/v${pkgver}.tar.gz"
   "${pkgname}"
 )
 sha256sums=('SKIP' 'SKIP')
