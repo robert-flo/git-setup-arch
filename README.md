@@ -9,10 +9,27 @@ Clone this package repository, build the package, and install it with pacman:
 ```bash
 git clone <package-repository-url> git-setup
 cd git-setup
-makepkg -si
+make install
 ```
 
 After installation, run `git-setup` to open the interactive menu. The package deliberately does not publish to AUR yet.
+
+`make` exposes the usual package-maintenance tasks:
+
+| Command | Action |
+| --- | --- |
+| `make build` | Build with `makepkg -s`. |
+| `make install` | Build or reuse the existing package, then install it with `makepkg -si`. |
+| `make reinstall` | Discard working build directories, force a new package, and install it with `makepkg -Cfi`. Use this after modifying `PKGBUILD` or if an existing package artifact is stale. |
+| `make clean` | Remove makepkg working directories with `makepkg -c`. |
+| `make lint` | Check Bash syntax, ShellCheck, `.SRCINFO`, and whitespace errors. |
+| `make test-release` | Verify the published release archive in Docker. |
+| `make test-local SOURCE_DIR=/path/to/source` | Build, install, and exercise a committed source checkout in Docker. |
+| `make test SOURCE_DIR=/path/to/source` | Run lint and both container validations. |
+
+Run `make help` to show this list in the terminal. `SOURCE_DIR` is the source
+repository path supplied to the local validator; it is equivalent to setting
+`GIT_SETUP_SOURCE_DIR` directly.
 
 `PKGBUILD` downloads the published `v0.1.0` release archive and verifies it with a fixed SHA-256 checksum.
 
