@@ -10,7 +10,10 @@ source=(
   "${pkgname}-${pkgver}.tar.gz::${url}/archive/refs/tags/v${pkgver}.tar.gz"
   "${pkgname}"
 )
-sha256sums=('SKIP' 'SKIP')
+sha256sums=(
+  'd3559179dc27806a2b90f352fcea2adf8b485e949c7a6f561b566208f20173b7'
+  'e1940018f1f1f042fdb697fdfcf022076cfcd2821c3689aaa3fd5c6d3583f150'
+)
 
 package() {
   local source_dir="${srcdir}/git-setup---hermes-agent-era-${pkgver}"
