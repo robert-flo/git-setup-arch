@@ -1,5 +1,5 @@
 pkgname=git-setup
-pkgver=0.1.1
+pkgver=0.2.0
 pkgrel=1
 pkgdesc='Configure Git, GitHub, SSH and GPG interactively'
 arch=('any')
@@ -12,7 +12,7 @@ source=(
   "${pkgname}"
 )
 sha256sums=(
-  '6be2dcdd84925bdaefa6993f14a90c5d9b4b6dcf283be9b6c366fd02443b4131'
+  '0e72ee6fb825b2352e2fd20ab4ddb5400ba316809afd9a9d6170ddf8f6ceea53'
   'e1940018f1f1f042fdb697fdfcf022076cfcd2821c3689aaa3fd5c6d3583f150'
 )
 
